@@ -97,13 +97,17 @@ class Graph:
 
     # Do with recursion
     def dft_recursive(self, starting_vertex, visited=None):
+        # Check if visisted is None
         if visited is None:
+            # If it id none, change it to a set
             visited = set()
 
         print(starting_vertex)
 
+        # start of with the first vertex
         visited.add(starting_vertex)
 
+        # check for neighbouring nodes
         for next_vert in self.get_neighbors(starting_vertex):
             if next_vert not in visited:
                 self.dft_recursive(next_vert, visited)
@@ -127,21 +131,25 @@ class Graph:
 			# Here we create a path
             # Dequeue is removing from the list - we do that to first vertices
 			path = q.dequeue()
-​
-			# If it's not visited, check the set above:
-			if path[-1] not in visited:
-                if path [-1] == destination_vertex:
+​            
+            # Get the last vertex from the PATH
+            last_vertex = path[-1]
+
+			# If last_vertex not visited, check the neighbours:
+			if last_vertex not in visited:
+                # if the last_vertex is the destination, return the path
+                if last_vertex == destination_vertex:
                     return path
+                # else, we create new paths with each neighbour
+                else:
+                    for next_vert in self.get_neighbors(last_vertex):
+                        # Then we add it onto the queue
+                        q.enqueue(path + next_vert)
 			​
 				# Mark visited if it is in the visited set
-				visited.add(path[-1])
+				visited.add(last_vertex)
 ​
-                # we then check the adjacent neighbours 
-                for v in self.get_neighbors([path[-1]]):
-                    new_path = list(path)
-                    new_path.append(v)
-                    # we then add it onto the queue
-					q.enqueue(next_path)
+            
 
         
         pass  
@@ -164,33 +172,51 @@ class Graph:
             # Pop is removing from the list - we do that to first vertices
 			path = s.pop()
 ​
-			# If it's not visited, check the set above:
-			if path[-1] not in visited:
-                if path [-1] == destination_vertex:
+			# Get the last vertex from the PATH
+            last_vertex = path[-1]
+
+			# If last_vertex not visited, check the neighbours:
+			if last_vertex not in visited:
+                # if the last_vertex is the destination, return the path
+                if last_vertex == destination_vertex:
                     return path
+                # else, we create new paths with each neighbour
+                else:
+                    for next_vert in self.get_neighbors(last_vertex):
+                        # Then we add it onto the queue
+                        s.push(path + next_vert)
 			​
 				# Mark visited if it is in the visited set
-				visited.add(path[-1])
-​
-                # we then check the adjacent neighbours 
-                for next_vert in self.get_neighbors([path[-1]]):
-                    new_path = list(path)
-                    new_path.append(next_vert)
-                    # we then add it onto the queue
-					s.push(new_path)
+				visited.add(last_vertex)
 
 
         pass  
 
+    # Return a list containing a path from starting_vertex to destination_vertex in depth-first order.
     def dfs_recursive(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
+        # Check if visisted is None
+        if visited is None:
+            # If it id none, change it to a set
+            visited = set()
 
-        This should be done using recursion.
-        """
-        pass  # TODO
+        if path is None:
+            path = []
+        
+        # start of with the first vertex
+        visited.add(starting_vertex)
+
+        path = path + [starting_vertex]
+
+        if starting_vertex == destination_vertex:
+            return path
+        
+        # check for neighbouring nodes
+        for next_vert in self.get_neighbors(starting_vertex):
+            if next_vert not in visited:
+                new path = self.dft_recursive(next_vert, visited, destination_vertex, path)
+        
+  
+        pass  
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
